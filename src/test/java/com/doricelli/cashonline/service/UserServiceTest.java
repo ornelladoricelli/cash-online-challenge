@@ -83,8 +83,7 @@ class UserServiceTest {
   }
 
   private void givenAUserInDatabase() {
-    User user = User.buildForTest(1L, EMAIL, FIRST_NAME, LAST_NAME);
-    when(userRepository.findById(any())).thenReturn(Optional.of(user));
+    when(userRepository.findById(any())).thenReturn(Optional.of(getUserForTest()));
   }
 
   private void thenShouldNotSaveUserInDatabase() {
@@ -96,9 +95,13 @@ class UserServiceTest {
   }
 
   private void whenCallingCreateUserMethod(UserRequest userRequest) {
+    when(userRepository.save(any())).thenReturn(getUserForTest());
     userService.createUser(userRequest);
   }
 
+  private User getUserForTest() {
+    return User.buildForTest(1L, EMAIL, FIRST_NAME, LAST_NAME);
+  }
   private UserRequest givenAUserRequest() {
     return new UserRequest(EMAIL, FIRST_NAME, LAST_NAME);
   }

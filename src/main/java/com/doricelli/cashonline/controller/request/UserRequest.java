@@ -1,7 +1,9 @@
 package com.doricelli.cashonline.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.ToString;
 
+@ToString()
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserRequest {
   private String email;

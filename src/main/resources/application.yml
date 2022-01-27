@@ -5,6 +5,9 @@ server:
   error:
     include-message: always
 
+logging:
+  level:
+    root: info
 
 spring:
   profiles:

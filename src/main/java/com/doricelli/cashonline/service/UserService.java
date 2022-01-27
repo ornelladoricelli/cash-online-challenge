@@ -5,7 +5,9 @@ import com.doricelli.cashonline.common.exception.UserNotFoundException;
 import com.doricelli.cashonline.common.util.UserMapper;
 import com.doricelli.cashonline.controller.request.UserRequest;
 import com.doricelli.cashonline.controller.response.UserResponse;
+import com.doricelli.cashonline.model.User;
 import com.doricelli.cashonline.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
   private final UserRepository userRepository;
@@ -27,7 +30,8 @@ public class UserService {
   @Transactional
   public void createUser(UserRequest userRequest) {
     validateRequestProperties(userRequest);
-    userRepository.save(UserMapper.createEntityFromRequest(userRequest));
+    User user = userRepository.save(UserMapper.createEntityFromRequest(userRequest));
+    log.info("Successfully created new user (id: {})", user.getId());
   }
 
   public boolean userExistsById(final Long id){
@@ -45,7 +49,9 @@ public class UserService {
   public void deleteUserById(final Long id) {
     try {
       userRepository.deleteById(id);
+      log.info("Successfully deleted user with id: {}", id);
     } catch (EmptyResultDataAccessException e) {
+      log.warn("Couldn't delete user with id: {}, user doesn't exists", id);
       throw new UserNotFoundException("No se encontró usuario con el id " + id);
     }
   }

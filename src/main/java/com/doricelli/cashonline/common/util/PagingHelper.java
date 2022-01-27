@@ -29,7 +29,7 @@ public class PagingHelper {
 
   public static void verifyPageBounds(int loanPageNumber, int loanTotalPages){
     if (loanPageNumber + PAGE_OFFSET > loanTotalPages){
-     throw new RangeNotSatisfiableException("El numero de pagina supera el total de paginas disponible");
+     throw new RangeNotSatisfiableException("El numero de pagina supera el total de paginas disponible: " + loanTotalPages);
     }
   }
 }
